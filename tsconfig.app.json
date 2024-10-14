@@ -20,5 +20,6 @@
     /* Linting */
     "strict": true,
   },
-  "include": ["src"]
+  // 配置整个项目的tsconfig
+  "include": ["src"],
 }

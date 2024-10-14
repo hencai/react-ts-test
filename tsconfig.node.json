@@ -15,5 +15,6 @@
     /* Linting */
     "strict": true,
   },
-  "include": ["vite.config.ts"]
+  // 专门配置vite.config.ts这个文件的tsconfig
+  "include": ["vite.config.ts"],
 }
