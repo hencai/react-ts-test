@@ -1,20 +1,23 @@
 {
+  // 所有配置规则针对vite.config.ts,最终都会被引入到tsconfig.app.json文件中
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["ES2023"],
+    "lib": [
+      "ES2023"
+    ],
     "module": "ESNext",
     "skipLibCheck": true,
-
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
-
     /* Linting */
     "strict": true,
   },
   // 专门配置vite.config.ts这个文件的tsconfig
-  "include": ["vite.config.ts"],
+  "include": [
+    "vite.config.ts"
+  ],
 }

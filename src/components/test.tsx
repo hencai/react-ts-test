@@ -18,12 +18,12 @@ class MyComponent extends React.Component {
   }
 
   // pre-commit 阶段：可以读取DOM
-  getSnapshotBeforeUpdate(nextProps, nextState) {}
+  getSnapshotBeforeUpdate(nextProps, nextState) { }
 
   // commit 阶段，可以使用DOM，运运行副作用，安排更新。
-  componentDidMount(): void {}
+  componentDidMount(): void { }
 
-  componentDidUpdate(prevProps: any, prevState, snapshot): void {}
+  componentDidUpdate(prevProps: any, prevState, snapshot): void { }
 
-  componentWillUnmount(): void {}
+  componentWillUnmount(): void { }
 }

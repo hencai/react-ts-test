@@ -1,11 +1,15 @@
 {
+  // 针对所有文件进行配置，最终都会被引入到tsconfig.app.json文件中
   "compilerOptions": {
     "target": "ES2020",
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "module": "ESNext",
     "skipLibCheck": true,
-
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
@@ -13,13 +17,14 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
-
     //
     "allowJs": true,
-
     /* Linting */
     "strict": true,
+    "noImplicitThis": false,
   },
   // 配置整个项目的tsconfig
-  "include": ["src"],
+  "include": [
+    "src"
+  ],
 }
