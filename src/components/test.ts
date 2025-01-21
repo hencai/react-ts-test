@@ -1,5 +1,25 @@
 import { chunk, concat } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
+import * as _ from 'radash';
+import { fork, group, iterate } from 'radash';
+
+const gods = [
+  { name: 'Ra', power: 'sun', rank: 100, culture: 'egypt' },
+  { name: 'Loki', power: 'tricks', rank: 72, culture: 'norse' },
+  { name: 'Zeus', power: 'lightning', rank: 96, culture: 'greek' },
+];
+
+_.max(gods, g => g.rank); // => ra
+_.sum(gods, g => g.rank); // => 268
+_.fork(gods, g => g.culture === 'norse'); // => [[loki], [ra, zeus]]
+_.sort(gods, g => g.rank); // => [ra, zeus, loki]
+_.boil(gods, (a, b) => (a.rank > b.rank ? a : b)); // => ra
+
+_.objectify(
+  gods,
+  g => g.name.toLowerCase(),
+  g => _.pick(g, ['power', 'rank', 'culture']),
+); // => { ra, zeus, loki }
 
 {
   const test = () => {
@@ -3741,4 +3761,92 @@ declare function pick<T extends Record<string, unknown>>(target: T, ...keys: (ke
 
     // test();
   }
+}
+
+{
+  const test = () => {
+    const gods = [
+      { name: 'Ra', power: 'sun', rank: 100, culture: 'egypt' },
+      { name: 'Loki', power: 'tricks', rank: 72, culture: 'norse' },
+      { name: 'Zeus', power: 'lightning', rank: 96, culture: 'greek' },
+    ];
+
+    console.log('max:', _.max(gods, g => g.rank)); // => ra
+    console.log('sum:', _.sum(gods, g => g.rank)); // => 268
+    console.log('fork:', _.fork(gods, g => g.culture === 'norse')); // => [[loki], [ra, zeus]]
+    console.log('sort:', _.sort(gods, g => g.rank)); // => [ra, zeus, loki]
+    console.log('boil:', _.boil(gods, (a, b) => (a.rank > b.rank ? a : b))); // => ra
+
+    console.log('objectify:', _.objectify(
+      gods,
+      g => g.name.toLowerCase(),
+      g => _.pick(g, ['power', 'rank', 'culture']),
+    )); // => { ra, zeus, loki }
+  };
+  // test();
+}
+
+{
+  const test = () => {
+    const gods = [
+      {
+        name: 'Ra',
+        power: 100,
+      },
+      {
+        name: 'Zeus',
+        power: 98,
+      },
+      {
+        name: 'Loki',
+        power: 72,
+      },
+      {
+        name: 'Vishnu',
+        power: 100,
+      },
+    ];
+
+    const [finalGods, lesserGods] = fork(gods, f => f.power > 90);
+    console.log(finalGods, lesserGods);
+  };
+  // test();
+}
+
+{
+  const test = () => {
+    const fish = [
+      {
+        name: 'Marlin',
+        source: 'ocean',
+      },
+      {
+        name: 'Bass',
+        source: 'lake',
+      },
+      {
+        name: 'Trout',
+        source: 'lake',
+      },
+    ];
+
+    const fishBySource = group(fish, f => f.source);
+    console.log(fishBySource);
+  };
+  // test();
+}
+
+{
+  const test = () => {
+    const value = iterate(
+      4,
+      (acc, idx) => {
+        console.log('idx', idx);
+        return acc + idx;
+      },
+      0,
+    );
+    console.log('value', value);
+  };
+  // test();
 }
