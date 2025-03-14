@@ -71,8 +71,7 @@
         const data = { code: 200, reason: '' };
         if (data.code === 200) {
           resolve(data);
-        }
-        else {
+        } else {
           reject(data.reason);
         }
       });
@@ -82,8 +81,7 @@
       let timer = setTimeout(async () => {
         try {
           data = await fetchData(api, param);
-        }
-        catch (e) {
+        } catch (e) {
           data = null;
           console.log('e');
         }
@@ -101,15 +99,15 @@
 }
 
 /**
-   * 继承相关
-   */
+ * 继承相关
+ */
 
 {
   // 原型链继承
   /**
-     * 1. 范围: 子类构造函数 & 父类构造函数 & 父类原型对象
-     * 2. 缺点: 单一继承
-     */
+   * 1. 范围: 子类构造函数 & 父类构造函数 & 父类原型对象
+   * 2. 缺点: 单一继承
+   */
   {
     const test = () => {
       function Father() {
@@ -129,10 +127,10 @@
 
   // 构造函数继承
   /**
-     * 1. 可以多继承
-     * 2. 范围: 子类构造函数 & 父类构造函数
-     * 3. 缺点: 无法获取父类原型对象上的所有 & 子类实例修改父类构造函数中的属性,其余子类实例获取的父类构造函数所有也改变
-     */
+   * 1. 可以多继承
+   * 2. 范围: 子类构造函数 & 父类构造函数
+   * 3. 缺点: 无法获取父类原型对象上的所有 & 子类实例修改父类构造函数中的属性,其余子类实例获取的父类构造函数所有也改变
+   */
   {
     const test = () => {
       function Father() {
@@ -156,10 +154,10 @@
 
   // 组合继承
   /**
-     * 1. 解决了无法获取父类原型对象所有的问题
-     * 2. 解决了子类实例修改父类构造函数中的属性,其余子类实例获取的父类构造函数所有也改变
-     * 3. 但是父类构造函数调用了两次,导致子类原型上多一份父类构造函数所有数据
-     */
+   * 1. 解决了无法获取父类原型对象所有的问题
+   * 2. 解决了子类实例修改父类构造函数中的属性,其余子类实例获取的父类构造函数所有也改变
+   * 3. 但是父类构造函数调用了两次,导致子类原型上多一份父类构造函数所有数据
+   */
   {
     const test = () => {
       function Father() {
@@ -179,9 +177,9 @@
 
   // 寄生继承
   /**
-     * 1. 解决重复调用父类构造函数的问题
-     * 2. 只使用Object.create()来创建父类的原型对象,而不是调用父类构造函数
-     */
+   * 1. 解决重复调用父类构造函数的问题
+   * 2. 只使用Object.create()来创建父类的原型对象,而不是调用父类构造函数
+   */
   {
     const test = () => {
       function Father() {
@@ -376,7 +374,7 @@
     let maxEdge = 0;
     let edgesUsed = 0;
     for (const [dist, u, v] of edges) {
-      if (find(u) !== find((v))) {
+      if (find(u) !== find(v)) {
         union(u, v);
         maxEdge = dist;
         edgesUsed++;
@@ -413,8 +411,7 @@
         const char = str[i];
         if (charMap[char]) {
           charMap[char]++;
-        }
-        else {
+        } else {
           charMap[char] = 1;
         }
       }
@@ -471,8 +468,7 @@
           if (a.includes(next)) {
             currentSequence.push(next);
             current = next;
-          }
-          else {
+          } else {
             break;
           }
         }
@@ -503,7 +499,7 @@
     let result = add(x, y);
     console.log('result ' + result); // "result 60"
 
-    function add(a) {
+    function add2(a) {
       return a + 40;
     }
     let result1 = add(x);

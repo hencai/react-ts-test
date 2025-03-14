@@ -2,17 +2,17 @@
 
 // 二叉树
 type TreeNode = {
-  val: number
-  left: TreeNode | null
-  right: TreeNode | null
-  constructor: (val?: number, left?: TreeNode | null, right?: TreeNode | null) => TreeNode | null
+  val: number;
+  left: TreeNode | null;
+  right: TreeNode | null;
+  constructor: (val?: number, left?: TreeNode | null, right?: TreeNode | null) => TreeNode | null;
 };
 
 // 链表
 type ListNode = {
-  val: number
-  next: ListNode | null
-  constructor: (val?: number, next?: ListNode | null) => ListNode | null
+  val: number;
+  next: ListNode | null;
+  constructor: (val?: number, next?: ListNode | null) => ListNode | null;
 };
 
 //  双指针，只有一个输入，从两端开始遍历
@@ -26,8 +26,7 @@ type ListNode = {
       if (arr[left] > arr[right]) {
         res = Math.max(res, arr[left]);
         ++left;
-      }
-      else {
+      } else {
         res = Math.max(res, arr[right]);
         --right;
       }
@@ -52,8 +51,7 @@ type ListNode = {
       if (arr1[start1] > arr2[start2]) {
         max = Math.max(max, arr1[start1]);
         ++start1;
-      }
-      else {
+      } else {
         max = Math.max(max, arr2[start2]);
         ++start2;
       }

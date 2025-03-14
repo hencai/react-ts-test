@@ -9,16 +9,16 @@ const gods = [
   { name: 'Zeus', power: 'lightning', rank: 96, culture: 'greek' },
 ];
 
-_.max(gods, g => g.rank); // => ra
-_.sum(gods, g => g.rank); // => 268
-_.fork(gods, g => g.culture === 'norse'); // => [[loki], [ra, zeus]]
-_.sort(gods, g => g.rank); // => [ra, zeus, loki]
+_.max(gods, (g) => g.rank); // => ra
+_.sum(gods, (g) => g.rank); // => 268
+_.fork(gods, (g) => g.culture === 'norse'); // => [[loki], [ra, zeus]]
+_.sort(gods, (g) => g.rank); // => [ra, zeus, loki]
 _.boil(gods, (a, b) => (a.rank > b.rank ? a : b)); // => ra
 
 _.objectify(
   gods,
-  g => g.name.toLowerCase(),
-  g => _.pick(g, ['power', 'rank', 'culture']),
+  (g) => g.name.toLowerCase(),
+  (g) => _.pick(g, ['power', 'rank', 'culture']),
 ); // => { ra, zeus, loki }
 
 {
@@ -57,7 +57,10 @@ _.objectify(
 {
   const test = () => {
     const obj = { a: 1, b: { c: 2 } };
-    const { a, b: { c: d } } = obj;
+    const {
+      a,
+      b: { c: d },
+    } = obj;
     const b: typeof obj = obj;
     console.log(typeof obj);
     console.log('a', a);
@@ -68,7 +71,9 @@ _.objectify(
 
 {
   enum Color {
-    Red, Green, Blue,
+    Red,
+    Green,
+    Blue,
   }
   const c: Color = Color.Green;
 
@@ -85,16 +90,16 @@ _.objectify(
       b: 12,
       c: 'bar',
     };
-    const { a: newName1, b: newName2 }: { a: string, b: number } = o;
+    const { a: newName1, b: newName2 }: { a: string; b: number } = o;
     console.log(newName1, newName2);
   };
 }
 
 {
   interface SquareConfig {
-    color: string
-    width: number
-    [key: string]: any
+    color: string;
+    width: number;
+    [key: string]: any;
   }
 
   function createSquare(config: SquareConfig): SquareConfig {
@@ -142,9 +147,9 @@ _.objectify(
 
 {
   type People = {
-    name: string
-    age: number
-    hobby: number[]
+    name: string;
+    age: number;
+    hobby: number[];
   };
   // 使的接口属性变为可选属性
   type commenPeople = Pick<People, 'name'>;
@@ -170,24 +175,24 @@ _.objectify(
 
 type Alias = { num: number };
 interface Interface {
-  num: number
+  num: number;
 }
 declare function aliased(arg: Alias): Alias;
 declare function interfaced(arg: Interface): Interface;
 
 {
   type Square = {
-    kind: 'square'
-    size: number
+    kind: 'square';
+    size: number;
   };
   type Rectangle = {
-    kind: 'rectangle'
-    width: number
-    height: number
+    kind: 'rectangle';
+    width: number;
+    height: number;
   };
   type Circle = {
-    kind: 'circle'
-    radius: number
+    kind: 'circle';
+    radius: number;
   };
 
   type a = Square | Rectangle | Circle;
@@ -260,10 +265,10 @@ declare function interfaced(arg: Interface): Interface;
 
 {
   interface Todo {
-    title: string
-    description: string
-    completed: boolean
-    createdAt: number
+    title: string;
+    description: string;
+    completed: boolean;
+    createdAt: number;
   }
 
   type TodoPreview = Omit<Todo, 'description'>;
@@ -271,9 +276,9 @@ declare function interfaced(arg: Interface): Interface;
 
 {
   interface Todo {
-    title: string
-    description: string
-    completed: boolean
+    title: string;
+    description: string;
+    completed: boolean;
   }
 
   type TodoPreview = Pick<Todo, 'title' | 'completed'>;
@@ -284,7 +289,6 @@ declare function interfaced(arg: Interface): Interface;
     // console.log('a' in 'a' | 'b');
     console.log('b' in ['a', 'b']);
 
-    console.log(5 < 4 ? 1 : 2);
     type MyBool = true | false;
 
     console.log(Array.isArray([1, 2, 6]));
@@ -292,7 +296,7 @@ declare function interfaced(arg: Interface): Interface;
 }
 
 {
-  const debounce = (fn: Function, timeout: number) => {
+  const debounce = (fn: (...args: any[]) => any, timeout: number) => {
     let timer: NodeJS.Timeout;
     return (...args: any[]) => {
       clearTimeout(timer);
@@ -304,7 +308,7 @@ declare function interfaced(arg: Interface): Interface;
 }
 
 {
-  const throttle = (fn: Function, timeout: number) => {
+  const throttle = (fn: (...args: any[]) => any, timeout: number) => {
     let timer: NodeJS.Timeout | null;
     return (...args: any[]) => {
       if (timer) {
@@ -326,10 +330,9 @@ declare function interfaced(arg: Interface): Interface;
 
       return str
         .split('')
-        .reduce<string[]>(
-          (acc, letter, i) => acc.concat(anagrams(str.slice(0, i) + str.slice(i)).map(item => letter + item)),
-          [],
-        );
+        .reduce<
+          string[]
+        >((acc, letter, i) => acc.concat(anagrams(str.slice(0, i) + str.slice(i)).map((item) => letter + item)), []);
     };
     console.log(anagrams('abcde'));
   };
@@ -337,14 +340,11 @@ declare function interfaced(arg: Interface): Interface;
 
 {
   const test = () => {
-    const curry = (fn: Function, paramsLength = fn.length, ...args: any[]) =>
+    const curry = (fn: (...args: any[]) => any, paramsLength = fn.length, ...args: any[]) =>
       args.length < paramsLength ? fn.bind(null, fn, paramsLength, ...args) : fn(...args);
 
     const deepFlatten = (array: any[]) =>
-      array.reduce(
-        (result, item) => result.concat(Array.isArray(item) ? deepFlatten(item) : [item]),
-        [],
-      );
+      array.reduce((result, item) => result.concat(Array.isArray(item) ? deepFlatten(item) : [item]), []);
 
     console.log(deepFlatten([1, 2, [3, 4, [5]], 6]));
   };
@@ -354,10 +354,7 @@ declare function interfaced(arg: Interface): Interface;
   const flattenWithDepth = (array: any[], depth: number) =>
     depth === 0
       ? array
-      : array.reduce(
-        (res, item) => res.concat(Array.isArray(item) ? flattenWithDepth(item, depth - 1) : [item]),
-        [],
-      );
+      : array.reduce((res, item) => res.concat(Array.isArray(item) ? flattenWithDepth(item, depth - 1) : [item]), []);
 }
 
 {
@@ -367,7 +364,7 @@ declare function interfaced(arg: Interface): Interface;
 {
   const test = () => {
     const a = new Array(3);
-    a.map(item => ({
+    a.map((item) => ({
       text: item?.text,
       name: item?.name,
       sex: item?.sex,
@@ -401,10 +398,7 @@ declare function interfaced(arg: Interface): Interface;
     const flattenToDepth = (target: any[], depth: number) =>
       depth === 0
         ? target
-        : target.reduce(
-          (res, cur) => res.concat(Array.isArray(cur) ? flattenToDepth(cur, depth - 1) : cur),
-          [],
-        );
+        : target.reduce((res, cur) => res.concat(Array.isArray(cur) ? flattenToDepth(cur, depth - 1) : cur), []);
 
     console.log(flattenToDepth(data, 2));
   };
@@ -413,7 +407,7 @@ declare function interfaced(arg: Interface): Interface;
 {
   const test = () => {
     const dataA = [[1], [5], [3, 4, 5, 6]];
-    const newData = dataA.map(item => (item.length === 1 ? item[0] : item));
+    const newData = dataA.map((item) => (item.length === 1 ? item[0] : item));
 
     console.log(newData);
   };
@@ -439,7 +433,7 @@ declare function interfaced(arg: Interface): Interface;
     const flattenUseString = (array: any[]) =>
       String(array)
         .split(',')
-        .map(item => JSON.parse(item));
+        .map((item) => JSON.parse(item));
 
     console.log(flattenUseString(dataA));
   };
@@ -450,7 +444,7 @@ declare function interfaced(arg: Interface): Interface;
 }
 
 {
-  const debounce = (fn: Function, delay: number) => {
+  const debounce = (fn: (...args: any[]) => any, delay: number) => {
     let timer: NodeJS.Timeout;
     return (...rest: any[]) => {
       clearTimeout(timer);
@@ -462,7 +456,7 @@ declare function interfaced(arg: Interface): Interface;
 }
 
 {
-  const throttle = (fn: Function, delay: number) => {
+  const throttle = (fn: (...args: any[]) => any, delay: number) => {
     let timer: NodeJS.Timeout | null;
     return (...rest: any[]) => {
       if (!timer) {
@@ -485,39 +479,48 @@ declare function interfaced(arg: Interface): Interface;
 {
   const test = () => {
     // 1、简单实现，不考虑成功之后其他请求的处理
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     const poll1 = async (url: string, param?: string) => {
       const timer = setInterval(() => {
-        fetchData(url, param).then((res: any) => {
-          if (res.code === 200) {
+        fetchData(url, param).then(
+          (res: any) => {
+            if (res.code === 200) {
+              clearInterval(timer);
+            }
+            return res.data;
+          },
+          (err: any) => {
             clearInterval(timer);
-          }
-          return res.data;
-        }, (err: any) => {
-          clearInterval(timer);
-          return err;
-        });
+            return err;
+          },
+        );
       }, 300);
 
       return () => void clearInterval(timer);
     };
 
     // 2、前端终止逻辑，后端无法收到终止的信号，只是前端不再接受后端请求的成功或失败的结果
-    const queue: { resolve: Function, reject: Function }[] = [];
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const queue: { resolve: (...args: any[]) => any; reject: (...args: any[]) => any }[] = [];
+
     const poll2 = async (url: string, param: string) => {
       const timer = setInterval(async () => {
         try {
           const result = await new Promise<any>((resolve, reject) => {
             queue.push({ resolve, reject });
             fetchData(url, param)
-              .then((data: any) => {
-                resolve(data);
-              }, (err: any) => {
-                reject(err);
-              })
+              .then(
+                (data: any) => {
+                  resolve(data);
+                },
+                (err: any) => {
+                  reject(err);
+                },
+              )
               .finally(() => {
-                queue.splice(queue.findIndex(item => item.resolve === resolve), 1);
+                queue.splice(
+                  queue.findIndex((item) => item.resolve === resolve),
+                  1,
+                );
                 // 成功之后终止其余请求，清楚定时器
                 clearInterval(timer);
                 for (const { reject } of queue) {
@@ -527,15 +530,14 @@ declare function interfaced(arg: Interface): Interface;
           });
 
           return result;
-        }
-        catch (error: any) {
+        } catch (error: any) {
           console.log('promise发生错误', error);
         }
       }, 300);
     };
 
     // 3、最完美的实现
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     const poll3 = async (url: string, param: string) => {
       const controller = new AbortController();
       const timer = setTimeout(() => {
@@ -550,13 +552,11 @@ declare function interfaced(arg: Interface): Interface;
         const result = await fetch(url, { signal: controller.signal });
         clearTimeout(timer);
         return result;
-      }
-      catch (err: any) {
+      } catch (err: any) {
         clearTimeout(timer);
         if (err instanceof DOMException && err.name === 'AbortError') {
           return poll3(url, param);
-        }
-        else {
+        } else {
           return err;
         }
       }
@@ -640,16 +640,19 @@ declare function interfaced(arg: Interface): Interface;
 
     console.log('script start');
 
-    setTimeout(() => { // 异步，宏任务
+    setTimeout(() => {
+      // 异步，宏任务
       console.log('setTimeout');
     }, 0);
 
     async1();
 
-    new Promise((resolve) => { // 返回 Promise 之后，即同步执行完成，then 是异步代码
+    new Promise((resolve) => {
+      // 返回 Promise 之后，即同步执行完成，then 是异步代码
       console.log('promise1'); // Promise 的函数体会立刻执行
       resolve('');
-    }).then(() => { // 异步，微任务
+    }).then(() => {
+      // 异步，微任务
       console.log('promise2');
     });
 
@@ -657,15 +660,15 @@ declare function interfaced(arg: Interface): Interface;
   };
 
   /**
- * script start
- * async1 start
- * async2
- * promise1
- * script end
- * async1 end
- * promise2
- * setTimeout
- */
+   * script start
+   * async1 start
+   * async2
+   * promise1
+   * script end
+   * async1 end
+   * promise2
+   * setTimeout
+   */
 }
 
 {
@@ -700,7 +703,6 @@ declare function interfaced(arg: Interface): Interface;
     // p2是rejected会触发后续catch回调
     p2.then(() => {
       console.log(456);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     }).catch((err) => {
       console.log(789);
     });
@@ -736,7 +738,7 @@ declare function interfaced(arg: Interface): Interface;
 {
   const test = () => {
     Promise.resolve()
-      .then(() => console.log(1))// 状态返回fulfilled
+      .then(() => console.log(1)) // 状态返回fulfilled
       .catch(() => console.log(2)) // catch中没有报错，状态返回fulfilled，后面的then会执行
       .then(() => console.log(3)); // 1,3
     // 整个执行完没有报错，状态返回fulfilled
@@ -747,7 +749,8 @@ declare function interfaced(arg: Interface): Interface;
 {
   const test = () => {
     Promise.resolve()
-      .then(() => { // then中有报错 状态返回rejected,后面的catch会执行
+      .then(() => {
+        // then中有报错 状态返回rejected,后面的catch会执行
         console.log(1);
         throw new Error('error');
       })
@@ -761,7 +764,8 @@ declare function interfaced(arg: Interface): Interface;
 {
   const test = () => {
     Promise.resolve()
-      .then(() => { // then中有报错 状态返回rejected，后面的catch会执行
+      .then(() => {
+        // then中有报错 状态返回rejected，后面的catch会执行
         console.log(1);
         throw new Error('error');
       })
@@ -782,9 +786,10 @@ declare function interfaced(arg: Interface): Interface;
       console.log('setTimeout');
     }, 0);
 
-    Promise.resolve().then(() => {
-      console.log('promise1');
-    })
+    Promise.resolve()
+      .then(() => {
+        console.log('promise1');
+      })
       .then(() => {
         console.log('promise2');
       });
@@ -840,21 +845,23 @@ declare function interfaced(arg: Interface): Interface;
 
 {
   const test = () => {
-    const first = () => (new Promise((resolve) => {
-      console.log(3);
-      const p = new Promise((resolve) => {
-        console.log(7);
-        setTimeout(() => {
-          console.log(5);
-          resolve(6);
-        }, 0);
-        resolve(1);
+    const first = () =>
+      new Promise((resolve) => {
+        console.log(3);
+        const p = new Promise((resolve) => {
+          console.log(7);
+          setTimeout(() => {
+            console.log(5);
+            resolve(6);
+          }, 0);
+          resolve(1);
+        });
+        resolve(2);
+        p.then((arg) => {
+          // 1
+          console.log(arg);
+        });
       });
-      resolve(2);
-      p.then((arg) => { // 1
-        console.log(arg);
-      });
-    }));
 
     first().then((arg) => {
       console.log(arg); // 2
@@ -927,7 +934,7 @@ declare function interfaced(arg: Interface): Interface;
  * @param delay
  */
 {
-  const debounce = (fn: Function, delay: number) => {
+  const debounce = (fn: (...args: any[]) => any, delay: number) => {
     let timer: NodeJS.Timeout | null;
     return (...args: any[]) => {
       if (timer) {
@@ -949,7 +956,7 @@ declare function interfaced(arg: Interface): Interface;
  * @returns
  */
 {
-  const throttle = (fn: Function, delay: number) => {
+  const throttle = (fn: (...args: any[]) => any, delay: number) => {
     let timer: NodeJS.Timeout | null;
     return (...args: any[]) => {
       if (timer) {
@@ -965,7 +972,7 @@ declare function interfaced(arg: Interface): Interface;
 }
 
 {
-  const throttle = (fn: Function, delay: number) => {
+  const throttle = (fn: (...args: any[]) => any, delay: number) => {
     let lastTime = 0;
     return (...args: any[]) => {
       const now = Date.now();
@@ -992,11 +999,7 @@ declare function interfaced(arg: Interface): Interface;
         return false;
       }
       // 构造函数是基本数据类型返回false
-      if (
-        typeof classOrFunc !== 'object'
-        && classOrFunc !== null
-        && typeof classOrFunc !== 'function'
-      ) {
+      if (typeof classOrFunc !== 'object' && classOrFunc !== null && typeof classOrFunc !== 'function') {
         return false;
       }
 
@@ -1033,64 +1036,48 @@ declare function interfaced(arg: Interface): Interface;
  * @param args
  */
 {
-
   // const test = () => {
   //   const myNew = (constructor: Function, ...args: any[]) => {
   //     const newObj = Object.create(constructor.prototype);
-
   //     const res = constructor.apply(newObj, args);
-
   //     return typeof res === 'object' ? res : newObj;
   //   };
-
   //   // 用法
-
   //   function Person(name: string, age: number) {
   //     this.name = name;
   //     this.age = age;
   //   }
-
   //   const person = myNew(Person, 'xbai', 18);
   //   console.log(person.name, person.age);
   // };
 }
 
 {
-
   // const test = () => {
   //   const myCall = (context, ...args: any[]) => {
   //     if (typeof context !== 'object') context = new Object(context);
-
   //     const symbolKey = Symbol();
   //     context[symbolKey] = this;
   //     const result = context.symbolKey(...args);
   //     delete context[symbolKey];
-
   //     return result;
   //   };
-
   //   const myApply = (context, args: any[]) => {
   //     if (typeof context !== 'object') context = new Object(context);
-
   //     const symbolKey = Symbol();
   //     context[symbolKey] = this;
   //     const result = context.symbolKey(...args);
   //     delete context[symbolKey];
-
   //     return result;
   //   };
-
   //   const myBind = (context, ...args: any[]) => {
   //     if (typeof context !== 'object') context = new Object(context);
-
   //     const symbolKey = Symbol();
   //     context[symbolKey] = this;
   //     const result = (...extendArgs: any[]) => context[symbolKey](...args, ...extendArgs);
   //     delete context[symbolKey];
-
   //     return result;
   //   };
-
   //   Function.call = myCall;
   //   Function.apply = myApply;
   //   Function.bind = myBind;
@@ -1106,16 +1093,13 @@ declare function interfaced(arg: Interface): Interface;
   //   if (typeof obj !== 'object' || obj === null) {
   //     return obj;
   //   }
-
   //   const clonedObj = Array.isArray(obj) ? [] : {};
-
   //   // 自身可枚举属性可复制，如果是自身不可枚举属性没办法复制
   //   for (const key in clonedObj) {
   //     if (obj.hasOwnProperty(key)) {
   //       clonedObj[key] = deepClone(obj[key]);
   //     }
   //   }
-
   //   return clonedObj;
   // };
 }
@@ -1123,13 +1107,11 @@ declare function interfaced(arg: Interface): Interface;
 {
   // Promise.prototype.myResolve = function (param: any) {
   //   if (!(param instanceof Promise)) return param;
-
   //   return new Promise((resolve, reject) => {
   //     if (param && param.then && typeof param.then === 'function') {
   //       param.then(resolve, reject);
   //       return;
   //     }
-
   //     resolve(param);
   //   });
   // };
@@ -1203,7 +1185,6 @@ class maxQueue {
       return a;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     function gcdOfSubarray(arr: number[], start: number, end: number) {
       let result = arr[start];
       for (let i = start + 1; i <= end; i++) {
@@ -1290,8 +1271,7 @@ class maxQueue {
       for (let i = l; i < r; i++) {
         if (isAnd) {
           result &= list[i];
-        }
-        else {
+        } else {
           result |= list[i];
         }
         // 交替操作
@@ -1307,9 +1287,7 @@ class maxQueue {
 {
   const test = () => {
     const flat = (arr: any[], n: number) =>
-      n === 0
-        ? arr
-        : arr.reduce((res, cur) => res.concat(Array.isArray(cur) ? flat(cur, n - 1) : cur), []);
+      n === 0 ? arr : arr.reduce((res, cur) => res.concat(Array.isArray(cur) ? flat(cur, n - 1) : cur), []);
     const data = [1, 2, 3, [4, [5, 6]], 7];
     console.log(flat(data, 0));
     console.log(flat(data, 1));
@@ -1319,7 +1297,6 @@ class maxQueue {
 // 笔试
 {
   const test = () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const count = (n: number, m: number, directions: ('L' | 'R' | 'U' | 'D')[][]) => {
       const TIME = Math.pow(10, 8);
       const directionMap = {
@@ -1401,7 +1378,9 @@ class maxQueue {
         const nextRow = row + directions[directionIndex][0];
         const nextColumn = column + directions[directionIndex][1];
 
-        if (!(nextRow >= 0 && nextRow < rows && nextColumn >= 0 && nextColumn < columns && !visited[nextRow][nextColumn])) {
+        if (
+          !(nextRow >= 0 && nextRow < rows && nextColumn >= 0 && nextColumn < columns && !visited[nextRow][nextColumn])
+        ) {
           directionIndex = (directionIndex + 1) % 4;
         }
         row += directions[directionIndex][0];
@@ -1437,8 +1416,7 @@ class maxQueue {
           modes.shift();
           currentDistance -= distance;
           distance = 0;
-        }
-        else {
+        } else {
           distance -= currentDistance;
           currentDistance = 0;
           steps++;
@@ -1548,7 +1526,7 @@ class maxQueue {
       }
     }
 
-    const memorize = function (fn: Function) {
+    const memorize = function (fn: (...args: any[]) => any) {
       const resFunction = (object: any) => {
         if (resFunction.cache.has(object)) {
           return resFunction.cache.get(object);
@@ -1609,7 +1587,7 @@ class maxQueue {
 
     console.log(subList);
 
-    const res = subList.map(item => gcdArray(item));
+    const res = subList.map((item) => gcdArray(item));
     console.log(res);
 
     function gcdArray(arr: number[]) {
@@ -1629,7 +1607,7 @@ class maxQueue {
 
 // 防抖： 多次执行，只执行最近一次
 {
-  const debounce = (fn: Function, delay: number) => {
+  const debounce = (fn: (...args: any[]) => any, delay: number) => {
     let timer: NodeJS.Timeout | null = null;
     return (...args: any[]) => {
       if (timer) {
@@ -1645,7 +1623,7 @@ class maxQueue {
 
 // 节流，规定时间之内
 {
-  const throttle1 = (fn: Function, delay: number) => {
+  const throttle1 = (fn: (...args: any[]) => any, delay: number) => {
     let timer: NodeJS.Timeout | null = null;
     return (...args: any[]) => {
       if (!timer) {
@@ -1657,7 +1635,7 @@ class maxQueue {
     };
   };
 
-  const throttle2 = (fn: Function, delay: number) => {
+  const throttle2 = (fn: (...args: any[]) => any, delay: number) => {
     let last = 0;
     return (...args: any[]) => {
       const now = Date.now();
@@ -1691,15 +1669,18 @@ class maxQueue {
           reject('非promise对象');
         }
 
-        promise.then((data: unknown) => {
-          res.push(data);
+        promise.then(
+          (data: unknown) => {
+            res.push(data);
 
-          if (res.length === promises.length) {
-            resolve(data);
-          }
-        }, (reason: any) => {
-          reject(reason);
-        });
+            if (res.length === promises.length) {
+              resolve(data);
+            }
+          },
+          (reason: any) => {
+            reject(reason);
+          },
+        );
       }
     });
   };
@@ -1727,7 +1708,8 @@ class maxQueue {
 // 第三种
 {
   const test = () => {
-    const duplicate = (list: number[]) => list.reduce<number[]>((res, num) => res.includes(num) ? res : res.concat(num), []);
+    const duplicate = (list: number[]) =>
+      list.reduce<number[]>((res, num) => (res.includes(num) ? res : res.concat(num)), []);
     console.log(duplicate([1, 2, 2, 3, 4]));
   };
   // test();
@@ -1748,9 +1730,8 @@ class maxQueue {
 // 第二种
 {
   const test = () => {
-    const flatten = (arr: any[], depth: number) => depth === 0
-      ? arr
-      : arr.reduce((res, cur) => res.concat(Array.isArray(cur) ? flatten(cur, depth - 1) : cur), []);
+    const flatten = (arr: any[], depth: number) =>
+      depth === 0 ? arr : arr.reduce((res, cur) => res.concat(Array.isArray(cur) ? flatten(cur, depth - 1) : cur), []);
     console.log(flatten([1, 2, 3, [4, 5, [6, 7]]], 2));
   };
   // test();
@@ -1776,15 +1757,14 @@ class maxQueue {
 {
   const test = () => {
     const flatten = (arr: any[], depth: number) => {
-      const stack: any[] = arr.map(item => [item, depth]);
+      const stack: any[] = arr.map((item) => [item, depth]);
       const res: any[] = [];
 
       while (stack.length > 0) {
         const [item, depth] = stack.pop();
         if (Array.isArray(item) && depth > 0) {
-          stack.push(...item.map(el => [el, depth - 1]));
-        }
-        else {
+          stack.push(...item.map((el) => [el, depth - 1]));
+        } else {
           res.push(item);
         }
       }
@@ -1842,8 +1822,7 @@ class maxQueue {
         for (const ele of data) {
           copy.push(deepClone(ele));
         }
-      }
-      else {
+      } else {
         for (const key in data) {
           copy[key] = deepClone(data[key]);
         }
@@ -1869,16 +1848,14 @@ class maxQueue {
     const race = (promises: any[]): Promise<any> => {
       return new Promise((resolve, reject) => {
         for (const promise of promises) {
-          promise instanceof Promise
-            ? promise.then(resolve, reject)
-            : reject('数组中必须全部是promise实例');
+          promise instanceof Promise ? promise.then(resolve, reject) : reject('数组中必须全部是promise实例');
         }
       });
     };
     // 使用示例
-    const promise1 = new Promise(resolve => setTimeout(() => resolve('one'), 1000));
-    const promise2 = new Promise(resolve => setTimeout(() => resolve('two'), 2000));
-    const promise3 = new Promise(resolve => setTimeout(() => resolve('three'), 3000));
+    const promise1 = new Promise((resolve) => setTimeout(() => resolve('one'), 1000));
+    const promise2 = new Promise((resolve) => setTimeout(() => resolve('two'), 2000));
+    const promise3 = new Promise((resolve) => setTimeout(() => resolve('three'), 3000));
 
     race([promise1, promise2, promise3]).then((value) => {
       console.log(value); // 输出 'one'，因为promise1最先解决
@@ -1893,7 +1870,10 @@ class maxQueue {
 
 {
   const test = () => {
-    Array.prototype.filter = function (callback: (ele: any, index: number, curArray: any[]) => boolean, context = this) {
+    Array.prototype.filter = function (
+      callback: (ele: any, index: number, curArray: any[]) => boolean,
+      context = this,
+    ) {
       const filtedList: any[] = [];
       for (let i = 0; i < this.length; ++i) {
         if (callback.call(context, this[i], i, this)) {
@@ -1925,18 +1905,20 @@ class maxQueue {
  */
 {
   const test = () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const concurrent = (urls: string[], limit: number) => {
       let index = 0;
       const startTask = () => {
         if (index >= urls.length) return;
-        fetchUrl(urls[index++]).then(() => {
-          console.log('处理成功的回调');
-        }).catch(() => {
-          console.log('处理失败的回调');
-        }).finally(() => {
-          startTask();
-        });
+        fetchUrl(urls[index++])
+          .then(() => {
+            console.log('处理成功的回调');
+          })
+          .catch(() => {
+            console.log('处理失败的回调');
+          })
+          .finally(() => {
+            startTask();
+          });
       };
 
       while (index < limit) {
@@ -1946,11 +1928,14 @@ class maxQueue {
 
     function fetchUrl(url: string) {
       return new Promise((resolve) => {
-        setTimeout(() => {
-          // do something to request url for data
-          const data = url;
-          resolve(data);
-        }, Math.floor(Math.random() * 10000));
+        setTimeout(
+          () => {
+            // do something to request url for data
+            const data = url;
+            resolve(data);
+          },
+          Math.floor(Math.random() * 10000),
+        );
       });
     }
   };
@@ -1995,8 +1980,7 @@ class maxQueue {
           if (this.heap[index] > this.heap[parentIndex]) {
             this.swap(index, parentIndex);
             index = parentIndex;
-          }
-          else break;
+          } else break;
         }
       }
 
@@ -2104,8 +2088,7 @@ class maxQueue {
           if (this.heap[index] < this.heap[parentIndex]) {
             this.swap(index, parentIndex);
             index = parentIndex;
-          }
-          else break;
+          } else break;
         }
       }
 
@@ -2185,8 +2168,7 @@ class maxQueue {
         if (this.heap[index] < this.heap[parentIndex]) {
           this.swap(index, parentIndex);
           index = parentIndex;
-        }
-        else break;
+        } else break;
       }
     }
 
@@ -2262,7 +2244,7 @@ class maxQueue {
 
       [nums[lt], nums[start]] = [nums[start], nums[lt]];
       return lt;
-    };
+    }
 
     console.log(quickSort([1, 3, 2, 5, 6, 4], 0, 5));
   };
@@ -2351,11 +2333,9 @@ class maxQueue {
           ++lt;
           [nums[i], nums[lt]] = [nums[lt], nums[i]];
           ++i;
-        }
-        else if (nums[i] === pivot) {
+        } else if (nums[i] === pivot) {
           ++i;
-        }
-        else {
+        } else {
           --gt;
           [nums[i], nums[gt]] = [nums[gt], nums[i]];
         }
@@ -2364,7 +2344,7 @@ class maxQueue {
       [nums[lt], nums[start]] = [nums[start], nums[lt]];
 
       return lt;
-    };
+    }
 
     console.log(quickSort([1, 3, 2, 5, 6, 4], 0, 5));
   };
@@ -2439,7 +2419,7 @@ class maxQueue {
 {
   const test = () => {
     class Scheduler {
-      queue: Function[];
+      queue: ((...args: any[]) => any)[];
       isRunning: number;
 
       constructor() {
@@ -2454,8 +2434,7 @@ class maxQueue {
             this.isRunning--;
             this.queue.length && this.queue.shift()?.();
           });
-        }
-        else {
+        } else {
           return new Promise<void>((resolve) => {
             this.queue.push(resolve);
           }).then(() => {
@@ -2469,16 +2448,19 @@ class maxQueue {
       }
     }
 
-    const timeout = (time: number) => new Promise<void>((resolve) => {
-      setTimeout(resolve, time);
-    });
+    const timeout = (time: number) =>
+      new Promise<void>((resolve) => {
+        setTimeout(resolve, time);
+      });
 
     const scheduler = new Scheduler();
 
     const addTask = (time: number, order: number) => {
-      scheduler.add(() => timeout(time)).then(() => {
-        console.log(order);
-      });
+      scheduler
+        .add(() => timeout(time))
+        .then(() => {
+          console.log(order);
+        });
     };
 
     addTask(4000, 4);
@@ -2494,7 +2476,6 @@ class maxQueue {
 // 并行执行promise调度
 {
   {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const test = () => {
       function parallelLimit(allTasks: (() => Promise<any>)[], limitCount: number) {
         let runningCount = 0; // 正在运行的任务数量
@@ -2515,12 +2496,13 @@ class maxQueue {
           startTask(); // 启动任务直到达到限制数量
         }
       }
-      const createPromise = (time: number, info: number) => new Promise<void>((resolve) => {
-        setTimeout(() => {
-          resolve();
-          console.log(info);
-        }, time);
-      });
+      const createPromise = (time: number, info: number) =>
+        new Promise<void>((resolve) => {
+          setTimeout(() => {
+            resolve();
+            console.log(info);
+          }, time);
+        });
 
       const allTasks: (() => Promise<void>)[] = [];
       allTasks.push(() => createPromise(4000, 4));
@@ -2535,22 +2517,22 @@ class maxQueue {
   }
 
   {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const test = () => {
       function parallelBatches(allTasks: (() => Promise<void>)[], limitCount: number) {
         allTasks.length > limitCount
-          ? Promise.all(allTasks.slice(0, limitCount).map(fn => fn())).then(() => {
-            parallelBatches(allTasks.slice(limitCount), limitCount);
-          })
-          : Promise.all(allTasks.map(fn => fn()));
+          ? Promise.all(allTasks.slice(0, limitCount).map((fn) => fn())).then(() => {
+              parallelBatches(allTasks.slice(limitCount), limitCount);
+            })
+          : Promise.all(allTasks.map((fn) => fn()));
       }
 
-      const createPromise = (time: number, info: number) => new Promise<void>((resolve) => {
-        setTimeout(() => {
-          resolve();
-          console.log(info);
-        }, time);
-      });
+      const createPromise = (time: number, info: number) =>
+        new Promise<void>((resolve) => {
+          setTimeout(() => {
+            resolve();
+            console.log(info);
+          }, time);
+        });
 
       const allTasks: (() => Promise<void>)[] = [];
       allTasks.push(() => createPromise(4000, 4));
@@ -2566,17 +2548,16 @@ class maxQueue {
 }
 // 列表类型定义
 type ListItem = {
-  id: number
-  name: string
-  parentId: number | null
-
+  id: number;
+  name: string;
+  parentId: number | null;
 };
 // 树类型定义
 type Tree = {
-  id: number
-  name: string
-  parentId: number | null
-  children: Tree[]
+  id: number;
+  name: string;
+  parentId: number | null;
+  children: Tree[];
 };
 // 列表转树
 {
@@ -2587,7 +2568,7 @@ type Tree = {
       const map = new Map<number, Tree>();
 
       // 获取根节点的id
-      const rootId = list.find(item => item.parentId === null)?.id || 0;
+      const rootId = list.find((item) => item.parentId === null)?.id || 0;
 
       // 初始化每个节点的结构
       list.forEach((item) => {
@@ -2746,7 +2727,7 @@ type Tree = {
 {
   const test = () => {
     const simplify1 = (a: number) => void (a + 1);
-    const simplify2 = (a: number) => (a + 1);
+    const simplify2 = (a: number) => a + 1;
 
     console.log(simplify1(2));
     console.log(simplify2(2));
@@ -2762,7 +2743,6 @@ type Tree = {
       // 2、将这个对象的原型对象设置为函数的prototype对象
       // 3、将当前的this指向新创建的实例对象
       // 4、返回这个对象
-
     }
 
     myNew();
@@ -2830,18 +2810,17 @@ type Tree = {
 {
   const test = () => {
     const a: {
-      [key: string]: any
-      [Symbol.iterator]: () => { next(): { value: any, done: boolean } }
+      [key: string]: any;
+      [Symbol.iterator]: () => { next(): { value: any; done: boolean } };
     } = {
-      a: 1, b: 2,
+      a: 1,
+      b: 2,
       [Symbol.iterator]() {
         let index = 0;
         const keys = Object.keys(this);
         return {
           next() {
-            return index < keys.length
-              ? { value: this[keys[index++]], done: false }
-              : { value: null, done: true };
+            return index < keys.length ? { value: this[keys[index++]], done: false } : { value: null, done: true };
           },
         };
       },
@@ -2867,8 +2846,8 @@ type Tree = {
 
     // 最好的遍历对象的属性的方法是使用Object.keys()或者Object.getOwnPropertyNames()函数
 
-    Object.keys(a).forEach(innerKey => console.log(a[innerKey]));
-    Object.getOwnPropertyNames(a).forEach(innerKey => console.log(a[innerKey]));
+    Object.keys(a).forEach((innerKey) => console.log(a[innerKey]));
+    Object.getOwnPropertyNames(a).forEach((innerKey) => console.log(a[innerKey]));
   };
 
   // test();
@@ -2893,25 +2872,25 @@ type Tree = {
     }
 
     console.log('forEach遍历:不改变原数组,但是可以对原数组中引用类型数据内部的属性值进行修改,任何时候都返回undefined');
-    list.forEach(num => console.log(num));
+    list.forEach((num) => console.log(num));
 
     console.log('map遍历,返回新数组:不会改变原数组,有返回值,可以链式调用');
-    list.map(num => console.log(num));
+    list.map((num) => console.log(num));
 
     console.log('filter遍历:不改变原始数组,返回符合条件的元素组成的数组,可链式调用');
-    console.log(list.filter(num => num < 3));
+    console.log(list.filter((num) => num < 3));
 
     console.log('some遍历:不改变原始数组,只要有一个true,便终止返回true');
-    console.log(list.some(num => num > 6));
+    console.log(list.some((num) => num > 6));
 
     console.log('every遍历:不改变原数组,只要有一个是false,便终止返回false');
-    console.log(list.every(num => num < 6));
+    console.log(list.every((num) => num < 6));
 
     console.log('find遍历:找到第一个符合条件的元素,便终止返回其元素,否则返回undefined');
-    console.log(list.find(num => num === 3));
+    console.log(list.find((num) => num === 3));
 
     console.log('findIndex遍历:找到第一个符合条件的元素,便终止返回其索引,-1');
-    console.log(list.findIndex(num => num === 3));
+    console.log(list.findIndex((num) => num === 3));
 
     console.log('reduce遍历求和:不改变原数组,对数组正序进行操作');
     console.log(list.reduce((total, cur) => total + cur));
@@ -2929,27 +2908,33 @@ type Tree = {
     const list: any[] = [1, 2, { a: 3, b: 4 }];
 
     console.log('普通类型,不改变原数组');
-    console.log(list.forEach((item) => {
-      if (!(item instanceof Object)) {
-        item = 1;
-      }
-    }));
+    console.log(
+      list.forEach((item) => {
+        if (!(item instanceof Object)) {
+          item = 1;
+        }
+      }),
+    );
 
     console.log('引用类型数据改变内部值,可以改变原数组,返回undefined');
-    console.log(list.forEach((item) => {
-      if (item instanceof Object) {
-        item.a = 5;
-      }
-    }));
+    console.log(
+      list.forEach((item) => {
+        if (item instanceof Object) {
+          item.a = 5;
+        }
+      }),
+    );
 
     console.log(list);
 
     console.log('引用类型数据改变对象引用,无法改变原数组,返回undefined');
-    console.log(list.forEach((item) => {
-      if (item instanceof Object) {
-        item = { c: 1, d: 2 };
-      }
-    }));
+    console.log(
+      list.forEach((item) => {
+        if (item instanceof Object) {
+          item = { c: 1, d: 2 };
+        }
+      }),
+    );
     console.log(list);
   };
 
@@ -2993,11 +2978,13 @@ type Tree = {
   const test = () => {
     (async (num: number) => {
       return num;
-    })(3).then((res) => {
-      console.log(res);
-    }).catch((err) => {
-      console.log(err, 'err');
-    });
+    })(3)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err, 'err');
+      });
   };
   // test();
 }
@@ -3007,7 +2994,7 @@ type Tree = {
 // 3、如果直接执行async函数，会立即执行并返回一个promise，不会阻塞后面的代码，和普通返回promise的函数没有区别
 {
   const test = () => {
-    console.log((async () => { })());
+    console.log((async () => {})());
   };
 
   // test();
@@ -3032,7 +3019,7 @@ type Tree = {
     // 3、模板字符串
     // 4、async/await语法糖
     // 5、symbol、bigInt数据结构
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     const test = () => {
       // const s1 = Symbol(1);
       // const s2 = Symbol(2);
@@ -3110,7 +3097,7 @@ type Tree = {
 {
   const test = () => {
     // 懒汉式： 类加载时候不创建，需要获取单例实例的时候动态判断是否需要创建单例实例
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     class singleInstance1 {
       private static _instance: singleInstance1;
       constructor() {
@@ -3122,7 +3109,7 @@ type Tree = {
     }
 
     // 恶汉式: 一开始就创建好，不管需不要拿单例实例对象，我首创建好
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     class singleInstance2 {
       private static _instance: singleInstance2 = new singleInstance2();
 
@@ -3141,14 +3128,15 @@ type Tree = {
     const queueObservers = new Set<Function>();
     const observe = (fn: Function) => queueObservers.add(fn);
 
-    const observable = (obj: { [key: string]: string }) => new Proxy(obj, {
-      set(target, key, value, receiver) {
-        const result = Reflect.set(target, key, value, receiver);
-        // 通知
-        queueObservers.forEach(fn => fn());
-        return result;
-      },
-    });
+    const observable = (obj: { [key: string]: string }) =>
+      new Proxy(obj, {
+        set(target, key, value, receiver) {
+          const result = Reflect.set(target, key, value, receiver);
+          // 通知
+          queueObservers.forEach((fn) => fn());
+          return result;
+        },
+      });
 
     const obj = observable({
       name: 'xbai',
@@ -3167,7 +3155,6 @@ type Tree = {
 // 手写发布订阅模式
 {
   const test = () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     class PubSubModel {
       // 事件中心
       private static eventList: Map<string, ((data: any) => any)[]> = new Map();
@@ -3183,14 +3170,14 @@ type Tree = {
       // 取消订阅，如果没有传执行取消订阅的函数，则取消所有订阅函数
       unsub(eventName: string, fn?: (data: any) => any) {
         if (fn) {
-          PubSubModel.eventList.get(eventName)?.filter(subFn => subFn !== fn);
+          PubSubModel.eventList.get(eventName)?.filter((subFn) => subFn !== fn);
           return;
         }
         PubSubModel.eventList.set(eventName, []);
       }
 
       pub(eventName: string, data: any) {
-        PubSubModel.eventList.get(eventName)?.forEach(fn => void fn(data));
+        PubSubModel.eventList.get(eventName)?.forEach((fn) => void fn(data));
       }
     }
   };
@@ -3263,10 +3250,16 @@ type Tree = {
 {
   const test = () => {
     const formatTime = (time: number) => ({
-      year: 1, month: 1, day: 1, hour: 1, minute: 1, second: 1, originLeftSeconds: time,
+      year: 1,
+      month: 1,
+      day: 1,
+      hour: 1,
+      minute: 1,
+      second: 1,
+      originLeftSeconds: time,
     });
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const useTime = (leftSeconds: number, endCallback: Function) => {
+
+    const useTime = (leftSeconds: number, endCallback: (...args: any[]) => any) => {
       if (leftSeconds <= 0) {
         return;
       }
@@ -3327,7 +3320,6 @@ type Tree = {
 
 {
   const test = () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const getResult = (promises: (() => Promise<any>)[], retry: number, timeout: number) => {
       return new Promise((resolve) => {
         // 存放结果数组
@@ -3341,21 +3333,23 @@ type Tree = {
           const startTime = Date.now();
           function restart(promise: () => Promise<any>) {
             count++;
-            promise().then((result) => {
-              res.push(result);
-            }).catch((err) => {
-              if (Date.now() - startTime > timeout) {
-                res.push(Error('Timeout'));
-              }
-              //  如果当前已经重试了retry次数
-              else if (count - 1 >= retry) {
-                res.push(err);
-              }
-              // 满足时间限制和retry条件，则重试
-              else {
-                restart(promise);
-              }
-            });
+            promise()
+              .then((result) => {
+                res.push(result);
+              })
+              .catch((err) => {
+                if (Date.now() - startTime > timeout) {
+                  res.push(Error('Timeout'));
+                }
+                //  如果当前已经重试了retry次数
+                else if (count - 1 >= retry) {
+                  res.push(err);
+                }
+                // 满足时间限制和retry条件，则重试
+                else {
+                  restart(promise);
+                }
+              });
           }
           // 开启一个异步任务
           restart(promise);
@@ -3405,7 +3399,7 @@ type Tree = {
 }
 
 // ts函数类型申明
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 declare function pick<T extends Record<string, unknown>>(target: T, ...keys: (keyof T)[]): unknown;
 
 // 华为面试第一题
@@ -3419,7 +3413,12 @@ declare function pick<T extends Record<string, unknown>>(target: T, ...keys: (ke
   // 中序:  左中右     bedafc
   // 后序:   左右中    edbfca
 
-  function levelOrder(root: object) {
+  type Node = {
+    left?: Node;
+    right?: Node;
+  };
+
+  function levelOrder(root: Node) {
     if (!root) {
       return [];
     }
@@ -3433,11 +3432,11 @@ declare function pick<T extends Record<string, unknown>>(target: T, ...keys: (ke
       const node = queue.shift();
       result.push(root);
 
-      if (node.left) {
+      if (node?.left) {
         queue.push(root.left);
       }
 
-      if (node.right) {
+      if (node?.right) {
         queue.push(node.right);
       }
     }
@@ -3466,11 +3465,9 @@ declare function pick<T extends Record<string, unknown>>(target: T, ...keys: (ke
         for (let i = 0; i < nums.length; i++) {
           if (nums[i] < pivot) {
             left.push(nums[i]);
-          }
-          else if (nums[i] > pivot) {
+          } else if (nums[i] > pivot) {
             right.push(nums[i]);
-          }
-          else {
+          } else {
             equal.push(nums[i]);
           }
         }
@@ -3492,8 +3489,8 @@ declare function pick<T extends Record<string, unknown>>(target: T, ...keys: (ke
 {
   // 链表节点结构定义
   type Node = {
-    val: number
-    next: Node | null
+    val: number;
+    next: Node | null;
   };
 
   const test = () => {
@@ -3512,8 +3509,7 @@ declare function pick<T extends Record<string, unknown>>(target: T, ...keys: (ke
         if (temp1.val <= temp2.val) {
           temp.next = temp1;
           temp1 = temp1.next;
-        }
-        else {
+        } else {
           temp.next = temp2;
           temp2 = temp2.next;
         }
@@ -3523,8 +3519,7 @@ declare function pick<T extends Record<string, unknown>>(target: T, ...keys: (ke
 
       if (temp1 !== null) {
         temp.next = temp1;
-      }
-      else {
+      } else {
         temp.next = temp2;
       }
 
@@ -3584,12 +3579,7 @@ declare function pick<T extends Record<string, unknown>>(target: T, ...keys: (ke
       return dummyHead.next;
     };
 
-    const testData = [
-      [4, 2, 1, 3],
-      [-1, 5, 3, 4, 0],
-      [1],
-      [],
-    ];
+    const testData = [[4, 2, 1, 3], [-1, 5, 3, 4, 0], [1], []];
 
     for (const data of testData) {
       const head = generateList(data);
@@ -3612,7 +3602,7 @@ declare function pick<T extends Record<string, unknown>>(target: T, ...keys: (ke
           accumulator.prototype.total += args2.reduce((acc, cur) => cur + acc, 0);
         }
         return accumulator;
-      };
+      }
 
       accumulator.prototype.count = () => accumulator.prototype.total;
       return accumulator;
@@ -3638,7 +3628,7 @@ declare function pick<T extends Record<string, unknown>>(target: T, ...keys: (ke
           total += args2.reduce((acc, cur) => cur + acc, 0);
         }
         return accumulator;
-      };
+      }
 
       accumulator.count = () => total;
       return accumulator;
@@ -3664,7 +3654,7 @@ declare function pick<T extends Record<string, unknown>>(target: T, ...keys: (ke
           accumulator.__proto__.total += args2.reduce((acc, cur) => cur + acc, 0);
         }
         return accumulator;
-      };
+      }
 
       accumulator.__proto__.count = () => accumulator.total;
       return accumulator;
@@ -3741,7 +3731,6 @@ declare function pick<T extends Record<string, unknown>>(target: T, ...keys: (ke
   // 函数中使用this,但是没有使用new进行调用会污染全局命名作用域
   // 具体对照同样的js代码可以执行，但是ts代码不能执行 是为什么？
   {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const test = () => {
       function poiont() {
         console.log(this, 'this');
@@ -3771,17 +3760,35 @@ declare function pick<T extends Record<string, unknown>>(target: T, ...keys: (ke
       { name: 'Zeus', power: 'lightning', rank: 96, culture: 'greek' },
     ];
 
-    console.log('max:', _.max(gods, g => g.rank)); // => ra
-    console.log('sum:', _.sum(gods, g => g.rank)); // => 268
-    console.log('fork:', _.fork(gods, g => g.culture === 'norse')); // => [[loki], [ra, zeus]]
-    console.log('sort:', _.sort(gods, g => g.rank)); // => [ra, zeus, loki]
-    console.log('boil:', _.boil(gods, (a, b) => (a.rank > b.rank ? a : b))); // => ra
+    console.log(
+      'max:',
+      _.max(gods, (g) => g.rank),
+    ); // => ra
+    console.log(
+      'sum:',
+      _.sum(gods, (g) => g.rank),
+    ); // => 268
+    console.log(
+      'fork:',
+      _.fork(gods, (g) => g.culture === 'norse'),
+    ); // => [[loki], [ra, zeus]]
+    console.log(
+      'sort:',
+      _.sort(gods, (g) => g.rank),
+    ); // => [ra, zeus, loki]
+    console.log(
+      'boil:',
+      _.boil(gods, (a, b) => (a.rank > b.rank ? a : b)),
+    ); // => ra
 
-    console.log('objectify:', _.objectify(
-      gods,
-      g => g.name.toLowerCase(),
-      g => _.pick(g, ['power', 'rank', 'culture']),
-    )); // => { ra, zeus, loki }
+    console.log(
+      'objectify:',
+      _.objectify(
+        gods,
+        (g) => g.name.toLowerCase(),
+        (g) => _.pick(g, ['power', 'rank', 'culture']),
+      ),
+    ); // => { ra, zeus, loki }
   };
   // test();
 }
@@ -3807,7 +3814,7 @@ declare function pick<T extends Record<string, unknown>>(target: T, ...keys: (ke
       },
     ];
 
-    const [finalGods, lesserGods] = fork(gods, f => f.power > 90);
+    const [finalGods, lesserGods] = fork(gods, (f) => f.power > 90);
     console.log(finalGods, lesserGods);
   };
   // test();
@@ -3830,7 +3837,7 @@ declare function pick<T extends Record<string, unknown>>(target: T, ...keys: (ke
       },
     ];
 
-    const fishBySource = group(fish, f => f.source);
+    const fishBySource = group(fish, (f) => f.source);
     console.log(fishBySource);
   };
   // test();

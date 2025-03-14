@@ -1,11 +1,13 @@
 {
   "name": "react-ts-test",
+  "type": "module",
   "private": true,
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "lint": "tsc && eslint . --ext ts,tsx",
+    "lint:fix": "tsc && eslint . --ext ts,tsx --fix",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -17,24 +19,19 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.25.8",
-    "@stylistic/eslint-plugin": "^2.9.0",
-    "@stylistic/eslint-plugin-js": "^2.9.0",
-    "@stylistic/eslint-plugin-jsx": "^2.9.0",
-    "@stylistic/eslint-plugin-plus": "^2.9.0",
-    "@stylistic/eslint-plugin-ts": "^2.9.0",
+    "@eslint/js": "^9.22.0",
     "@types/node": "^22.7.5",
     "@types/react": "^18.3.10",
     "@types/react-dom": "^18.3.0",
-    "@typescript-eslint/eslint-plugin": "^8.8.1",
-    "@typescript-eslint/parser": "^8.8.1",
     "@vitejs/plugin-react": "^4.3.2",
-    "eslint": "^9.12.0",
-    "eslint-plugin-react": "^7.37.1",
-    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
-    "eslint-plugin-react-refresh": "^0.4.12",
-    "globals": "^15.11.0",
-    "typescript": "^5.6.3",
-    "typescript-eslint": "^8.8.1",
+    "eslint": "^9.22.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-react": "^7.37.4",
+    "globals": "^16.0.0",
+    "prettier": "3.5.3",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.26.1",
     "vite": "^5.4.8",
     "vite-plugin-eslint": "^1.8.1"
   }
