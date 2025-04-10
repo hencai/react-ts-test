@@ -2839,6 +2839,7 @@ type Tree = {
     }
     // 遍历对象自身属性的基本方法,但是需要加一层判断
     for (const key in a) {
+      // eslint-disable-next-line no-prototype-builtins
       if (a.hasOwnProperty(key)) {
         console.log(a[key]);
       }
@@ -3125,8 +3126,8 @@ type Tree = {
 {
   const test = () => {
     // 当数据变化的时候需要通知更新的数据
-    const queueObservers = new Set<Function>();
-    const observe = (fn: Function) => queueObservers.add(fn);
+    const queueObservers = new Set<() => any>();
+    const observe = (fn: () => any) => queueObservers.add(fn);
 
     const observable = (obj: { [key: string]: string }) =>
       new Proxy(obj, {
@@ -3369,9 +3370,9 @@ type Tree = {
 // 字符串不可修改
 {
   const test = () => {
-    const s1 = '123';
-    s1[0] = '4';
-    console.log(s1);
+    // const s1 = '123';
+    // s1[0] = '4';
+    // console.log(s1);
   };
 
   // test();
