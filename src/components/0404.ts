@@ -19,5 +19,6 @@ type NodeTypeMap = {
 
 const isNode = <T extends NodeTypeMap = NodeTypeMap>(node: T, targetNodeType: keyof T): boolean => {
   if (node) {
+    return false;
   }
 };
