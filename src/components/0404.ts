@@ -22,29 +22,29 @@ const isNode = <T extends NodeTypeMap = NodeTypeMap>(node: T, targetNodeType: ke
     return false;
   }
   return true;
-}
+};
 
 const test = () => {
   function asyncOperation() {
     return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve('异步操作成功');
-            // reject(new Error('异步操作失败'));
-        }, 1000);
+      setTimeout(() => {
+        resolve('异步操作成功');
+        // reject(new Error('异步操作失败'));
+      }, 1000);
     });
   }
-  
+
   async function main() {
     try {
-        const result = await asyncOperation();
-        console.log('结果:', result);
+      const result = await asyncOperation();
+      console.log('结果:', result);
     } catch (error: any) {
-        console.error('捕获到错误:', error.message);
+      console.error('捕获到错误:', error.message);
     }
   }
-  
-  main();
-}
 
-const result = JSON.parse(' ')
-console.log("🤡 ~ result:", result)
+  main();
+};
+
+const result = JSON.parse(' ');
+console.log('🤡 ~ result:', result);
