@@ -7,10 +7,10 @@
     "build": "tsc -b && vite build",
     "lint": "tsc && eslint . --ext ts,tsx",
     "lint:fix": "tsc && eslint . --ext ts,tsx --fix",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "rollup": "rollup -c"
   },
   "dependencies": {
-    "@types/lodash": "^4.17.10",
     "lodash": "^4.17.21",
     "radash": "^12.1.0",
     "react": "^18.3.1",
@@ -20,6 +20,9 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.25.8",
     "@eslint/js": "^9.22.0",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@types/lodash": "^4.17.21",
     "@types/node": "^22.7.5",
     "@types/react": "^18.3.10",
     "@types/react-dom": "^18.3.0",
@@ -30,6 +33,7 @@
     "eslint-plugin-react": "^7.37.4",
     "globals": "^16.0.0",
     "prettier": "3.5.3",
+    "rollup": "^4.53.5",
     "typescript": "^5.8.2",
     "typescript-eslint": "^8.26.1",
     "vite": "^5.4.8",

@@ -1,4 +1,5 @@
-import { version } from '../../package.json';
+var version = "0.0.0";
+
 console.error('🐥 ~ version:', version);
 
 /***********************
