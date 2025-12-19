@@ -8,7 +8,7 @@ import pluginPrettier from 'eslint-plugin-prettier';
 export default [
   { files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}', 'eslint.config.js'] },
   {
-    ignores: ['node_modules/', 'bundle*.js'],
+    ignores: ['node_modules/', 'bundle*.js', 'dist'],
   },
   { languageOptions: { globals: globals.browser } },
   pluginJs.configs.recommended,
